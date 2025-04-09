@@ -9,8 +9,8 @@ logging.basicConfig(level=logging.INFO)
 # Disable Chroma's auto logging
 logging.getLogger("chromadb").setLevel(logging.WARNING)
 
-def process_text_to_embeddings(text: str, persist_directory: str) -> Chroma:
-    splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=1000)
+def process_text_to_embeddings(text: str, persist_directory: str, chunk_size: int, chunk_overlap: int) -> Chroma:
+    splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
     chunks = splitter.split_text(text)
     
     logging.info("Initializing embedding model.")
@@ -19,7 +19,7 @@ def process_text_to_embeddings(text: str, persist_directory: str) -> Chroma:
     logging.info("Creating Chroma database from text chunks.")
     return Chroma.from_texts(chunks, embedding_model, persist_directory=persist_directory)
 
-def main(input_file: str = "data/mds/output.md", persist_directory: str = "chroma_db"):
+def main(input_file: str = "data/mds/output.md", persist_directory: str = "chroma_db", chunk_size: int = 10000, chunk_overlap: int = 1000):
     
     # Ensure the input_file is treated as a Path
     file_path = Path(input_file)
@@ -34,7 +34,7 @@ def main(input_file: str = "data/mds/output.md", persist_directory: str = "chrom
     
     # Process text and store embeddings
     logging.info("Processing text to generate embeddings.")
-    process_text_to_embeddings(text, persist_directory)
+    process_text_to_embeddings(text, persist_directory, chunk_size, chunk_overlap)
     
     logging.info(f"Embeddings successfully stored in {persist_directory}")
 
