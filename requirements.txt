@@ -1,1 +1,7 @@
 mistralai
+langchain
+langchain-openai
+langchain-chroma
+langchain_community
+fastembed
+load_dotenv
