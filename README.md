@@ -2,7 +2,6 @@
 
 A Retrieval-Augmented Generation (RAG) system for analyzing PDF documents using OCR and vector embeddings.
 
-
 ## Setup
 
 1. Create a virtual environment and activate it:
@@ -40,14 +39,20 @@ python utils/ocr_to_markdown.py
 python utils/vector_db.py
 ```
 
-4. Start the API server:
+4. Build the Docker image and run the container:
 ```bash
-uvicorn app.main:app --reload
+docker build -t rag-api .
+
+docker run -p 8000:8000 rag-api
 ```
 
 5. Query the API:
-```bash
-curl -X POST http://localhost:8000/ask \
-  -H "Content-Type: application/json" \
-  -d '{"question":"In quale stagione è stata inaugurata la Coppa del Mondo di sci alpino?"}'
-```
+
+  To send a query to the API, use the following `curl` command:
+  ```bash
+  curl -X POST http://localhost:8000/ask \
+    -H "Content-Type: application/json" \
+    -d '{"question":"In quale stagione è stata inaugurata la Coppa del Mondo di sci alpino?"}'
+  ```
+
+  Alternatively, you can access the FastAPI Swagger UI for an interactive experience. Open your browser and navigate to [http://localhost:8000/docs](http://localhost:8000/docs) to explore and test the API endpoints.
