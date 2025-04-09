@@ -19,7 +19,7 @@ def process_text_to_embeddings(text: str, persist_directory: str, chunk_size: in
     logging.info("Creating Chroma database from text chunks.")
     return Chroma.from_texts(chunks, embedding_model, persist_directory=persist_directory)
 
-def main(input_file: str = "data/mds/output.md", persist_directory: str = "chroma_db", chunk_size: int = 10000, chunk_overlap: int = 1000):
+def main(input_file: str = "data/mds/output.md", persist_directory: str = "chroma_db", chunk_size: int = 1000, chunk_overlap: int = 200):
     
     # Ensure the input_file is treated as a Path
     file_path = Path(input_file)
