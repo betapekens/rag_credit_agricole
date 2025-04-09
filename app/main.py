@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from langchain_chroma import Chroma
 from langchain_community.embeddings import FastEmbedEmbeddings
 from langchain_openai import ChatOpenAI
@@ -15,7 +15,7 @@ embedding_model = FastEmbedEmbeddings()
 db = Chroma(persist_directory="chroma_db", embedding_function=embedding_model)
 
 # Create retriever
-retriever = db.as_retriever(search_type="similarity", search_kwargs={"k": 20})
+retriever = db.as_retriever(search_type="similarity", search_kwargs={"k": 10})
 
 
 # Load environment variables
@@ -41,7 +41,8 @@ qa_chain = RetrievalQA.from_chain_type(
 
 # Define request body schema
 class QuestionRequest(BaseModel):
-    question: str
+    question: str = Field(..., example="In quale stagione è stata inaugurata la Coppa del Mondo di sci alpino?")
+
 
 # Create the endpoint to answer questions
 @app.post("/ask")
