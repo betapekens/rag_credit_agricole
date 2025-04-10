@@ -74,3 +74,11 @@ docker run -p 8000:8000 rag-api
   ```
 
   Alternatively, you can access the FastAPI Swagger UI for an interactive experience. Open your browser and navigate to [http://localhost:8000/docs](http://localhost:8000/docs) to explore and test the API endpoints.
+
+## TODO
+- Better implementation of `.env` for docker deployement.
+- Implement error handling for missing or invalid `.env` configurations.
+- Write detailed documentation for API endpoints.
+- Add logging and monitoring for the API service.
+- Explore integration with cloud-based vector databases.
+- Add examples of real-world use cases in the documentation.
