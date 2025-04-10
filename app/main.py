@@ -34,14 +34,16 @@ llm = ChatOpenAI(
 
 # Set up RAG pipeline
 qa_chain = RetrievalQA.from_chain_type(
-    llm=llm,
-    retriever=retriever,
-    return_source_documents=True
+    llm=llm, retriever=retriever, return_source_documents=True
 )
+
 
 # Define request body schema
 class QuestionRequest(BaseModel):
-    question: str = Field(..., example="In quale stagione è stata inaugurata la Coppa del Mondo di sci alpino?")
+    question: str = Field(
+        ...,
+        example="In quale stagione è stata inaugurata la Coppa del Mondo di sci alpino?",
+    )
 
 
 # Create the endpoint to answer questions
@@ -50,6 +52,9 @@ def ask_question(request: QuestionRequest):
     try:
         # Use invoke to run the RAG pipeline synchronously
         result = qa_chain.invoke({"query": request.question})
-        return {"answer": result["result"], "source_documents": result["source_documents"]}
+        return {
+            "answer": result["result"],
+            "source_documents": result["source_documents"],
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

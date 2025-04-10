@@ -4,12 +4,14 @@ from mistralai import Mistral, DocumentURLChunk
 from dotenv import load_dotenv
 import logging
 
+
 def load_api_key() -> str:
     load_dotenv()
     api_key = os.getenv("MISTRAL_API_KEY")
     if not api_key:
         raise EnvironmentError("Missing MISTRAL_API_KEY in environment.")
     return api_key
+
 
 def upload_pdf(client: Mistral, pdf_path: Path):
     if not pdf_path.exists():
@@ -22,6 +24,7 @@ def upload_pdf(client: Mistral, pdf_path: Path):
         purpose="ocr",
     )
 
+
 def run_ocr(client: Mistral, file_id: str) -> dict:
     signed_url = client.files.get_signed_url(file_id=file_id, expiry=1)
     response = client.ocr.process(
@@ -31,9 +34,12 @@ def run_ocr(client: Mistral, file_id: str) -> dict:
     )
     return response
 
-def main(pdf_input: str = "data/pdfs/cdm-cai.pdf", md_output: str = "data/mds/output.md"):
+
+def main(
+    pdf_input: str = "data/pdfs/cdm-cai.pdf", md_output: str = "data/mds/output.md"
+):
     api_key = load_api_key()
-    
+
     logging.basicConfig(level=logging.INFO)
     logging.getLogger("httpx").setLevel(logging.WARNING)
     logging.info("Connecting to Mistral API...")
@@ -49,8 +55,10 @@ def main(pdf_input: str = "data/pdfs/cdm-cai.pdf", md_output: str = "data/mds/ou
 
     logging.info("OCR completed. Saving results to markdown file...")
     Path(md_output).parent.mkdir(parents=True, exist_ok=True)
-    Path(md_output).write_text(markdown_content, encoding='utf-8')
+    Path(md_output).write_text(markdown_content, encoding="utf-8")
 
     logging.info(f"Markdown content saved to {md_output}")
+
+
 if __name__ == "__main__":
     main()
