@@ -27,7 +27,7 @@ def process_text_to_embeddings(
     )
 
 
-def main(
+def vectorize(
     input_file: str = "data/mds/output.md",
     persist_directory: str = "chroma_db",
     chunk_size: int = 1000,
@@ -52,4 +52,4 @@ def main(
 
 
 if __name__ == "__main__":
-    main()
+    vectorize()
