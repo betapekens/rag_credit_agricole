@@ -35,7 +35,7 @@ def run_ocr(client: Mistral, file_id: str) -> dict:
     return response
 
 
-def main(
+def ocr_pipeline(
     pdf_input: str = "data/pdfs/cdm-cai.pdf", md_output: str = "data/mds/output.md"
 ):
     api_key = load_api_key()
@@ -61,4 +61,4 @@ def main(
 
 
 if __name__ == "__main__":
-    main()
+    ocr_pipeline()

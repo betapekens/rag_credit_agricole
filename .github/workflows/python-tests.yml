@@ -1,0 +1,44 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - '*'  # Trigger on push to any branch
+  pull_request:
+    branches:
+      - '*'  # Trigger on pull requests to any branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # You can change this to 'windows-latest' or 'macos-latest' if you need those environments
+
+    steps:
+      # Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'  # Replace with your Python version
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+    # Install dependencies using uv
+      - name: Install dependencies
+        run: |
+            uv venv
+            uv pip install --upgrade pip
+            uv pip install -r requirements-dev.txt
+
+      # Set environment variables for API keys
+      - name: Set environment variables
+        run: echo "MISTRAL_API_KEY=${{ secrets.MISTRAL_API_KEY }}" >> $GITHUB_ENV
+      - name: Set environment variables
+        run: echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> $GITHUB_ENV
+
+      # Run tests with pytest
+      - name: Run tests with pytest
+        run: |
+          uv run pytest --disable-warnings
