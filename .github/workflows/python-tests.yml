@@ -1,0 +1,35 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - '*'  # Trigger on push to any branch
+  pull_request:
+    branches:
+      - '*'  # Trigger on pull requests to any branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # You can change this to 'windows-latest' or 'macos-latest' if you need those environments
+
+    steps:
+      # Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'  # Replace with your Python version
+
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      # Run tests with pytest
+      - name: Run tests with pytest
+        run: |
+          pytest 
