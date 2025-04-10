@@ -1,5 +1,6 @@
 import sys
 import os
+import shutil
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -15,12 +16,18 @@ def test_ocr_pipeline():
     if os.path.exists(output_md):
         os.remove(output_md)
 
+    # Run the OCR pipeline
     ocr_pipeline(pdf_input=input_pdf, md_output=output_md)
 
-    assert os.path.exists(output_md)
+    # Assert the output file exists
+    assert os.path.exists(
+        output_md
+    ), f"Output markdown file '{output_md}' was not created."
+
+    # Assert the output file is not empty
     with open(output_md, "r", encoding="utf-8") as f:
         content = f.read()
-        assert len(content) > 1
+        assert len(content.strip()) > 0, "Output markdown file is empty."
 
 
 def test_vectorize():
@@ -29,12 +36,16 @@ def test_vectorize():
     chunk_size = 1000
     chunk_overlap = 200
 
+    # Ensure the input file exists
+    assert os.path.exists(
+        input_md
+    ), f"Input markdown file '{input_md}' does not exist. Run 'test_ocr_pipeline' first."
+
     # Clean up from previous runs
     if os.path.exists(persist_directory):
-        import shutil
-
         shutil.rmtree(persist_directory)
 
+    # Run the vectorization
     vectorize(
         input_file=input_md,
         persist_directory=persist_directory,
@@ -42,4 +53,15 @@ def test_vectorize():
         chunk_overlap=chunk_overlap,
     )
 
-    assert os.path.exists(persist_directory)
+    # Assert the output directory exists
+    assert os.path.exists(
+        persist_directory
+    ), f"Persist directory '{persist_directory}' was not created."
+
+    # Assert the output directory is not empty
+    assert (
+        len(os.listdir(persist_directory)) > 0
+    ), f"Persist directory '{persist_directory}' is empty."
+
+    # Cleanup after test
+    shutil.rmtree(persist_directory)
