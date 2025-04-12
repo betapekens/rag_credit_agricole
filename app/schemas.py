@@ -5,6 +5,11 @@ class QuestionRequest(BaseModel):
     question: str = Field(
         example="In quale stagione è stata inaugurata la Coppa del Mondo di sci alpino?",
     )
+    n_documents: int = Field(example=10)
+    llm_model: str = Field(
+        example="gpt-4o-mini",
+        description="The LLM model to use for generating answers",
+    )
 
 
 class ProcessResponse(BaseModel):

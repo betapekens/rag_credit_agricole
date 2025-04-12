@@ -2,15 +2,33 @@ from fastapi import APIRouter, HTTPException, UploadFile, File
 from pathlib import Path
 import shutil
 from .schemas import QuestionRequest, ProcessResponse, VectorDBRequest
-from .qa_chain import get_qa_chain
+from .get_db import get_db
 from utils import ocr_pipeline, vectorize
+from langchain_openai import ChatOpenAI
+from langchain.chains import RetrievalQA
+import os
+from dotenv import load_dotenv
 
 router = APIRouter()
-qa_chain = None
+db = None
+
+
+# Load environment variables
+load_dotenv()
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 
 @router.post("/upload_pdf")
 async def upload_pdf(file: UploadFile = File(...)):
+    """
+    Process uploaded PDF file through OCR pipeline and save as markdown.
+
+    Args:
+        file (UploadFile): Uploaded PDF file
+
+    Returns:
+        dict: Success message and path to generated markdown
+    """
     try:
         # Save uploaded PDF to a fixed location
         pdf_path = Path("data/input.pdf")
@@ -37,8 +55,20 @@ async def upload_pdf(file: UploadFile = File(...)):
 
 @router.post("/create_vector_db", response_model=ProcessResponse)
 async def create_vector_db(request: VectorDBRequest):
+    """
+    Creates a vector database from markdown content with specified chunking parameters.
+
+    Args:
+        request (VectorDBRequest): Request object containing chunk_size and chunk_overlap parameters
+
+    Returns:
+        ProcessResponse: Response object containing processing details and paths
+
+    Raises:
+        HTTPException: If markdown file not found or processing error occurs
+    """
     try:
-        global qa_chain
+        global db
         # Check if markdown file exists
         md_path = Path("data/mds/output.md")
         if not md_path.exists():
@@ -60,7 +90,7 @@ async def create_vector_db(request: VectorDBRequest):
         )
 
         # Refresh the QA chain after creating new vectors
-        qa_chain = get_qa_chain()
+        db = get_db()
 
         return ProcessResponse(
             message="Vector database created successfully",
@@ -77,8 +107,27 @@ async def create_vector_db(request: VectorDBRequest):
 
 @router.post("/ask")
 def ask_question(request: QuestionRequest):
+    """
+    This function takes a question from the user and returns an answer using a QA chain
+    that queries a Chroma vector database.
+
+    Args:
+        request (QuestionRequest): A request object containing the user's question and the number of documents.
+                                 Expected to have a 'question' attribute.
+
+    Returns:
+        dict: A dictionary containing:
+            - answer (str): The generated answer to the question
+            - source_documents (list): List of source documents used to generate the answer
+
+    Raises:
+        HTTPException:
+            - 400 if the vector database is not found
+            - 500 if any other error occurs during processing
+    """
     try:
-        global qa_chain
+        global db
+
         # Check if the Chroma database exists
         db_path = Path("chroma_db")
         if not db_path.exists() or not any(db_path.iterdir()):
@@ -88,8 +137,28 @@ def ask_question(request: QuestionRequest):
             )
 
         # Use the existing QA chain or create a new one if it doesn't exist
-        if qa_chain is None:
-            qa_chain = get_qa_chain()
+        if db is None:
+            db = get_db()
+
+        # Create retriever
+        retriever = db.as_retriever(
+            search_type="similarity", search_kwargs={"k": request.n_documents}
+        )
+
+        # Set up LLM
+        llm = ChatOpenAI(
+            model=request.llm_model,
+            temperature=0,
+            max_tokens=None,
+            timeout=None,
+            max_retries=2,
+            openai_api_key=openai_api_key,
+        )
+
+        # Create the RetrievalQA chain
+        qa_chain = RetrievalQA.from_chain_type(
+            llm=llm, retriever=retriever, return_source_documents=True
+        )
 
         # Use invoke to run the RAG pipeline synchronously
         result = qa_chain.invoke({"query": request.question})
