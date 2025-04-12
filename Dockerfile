@@ -1,4 +1,4 @@
-FROM python:3.11-alpine
+FROM python:3.11-slim
 
 # Set working directory in container
 WORKDIR /app
@@ -18,7 +18,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY app/ app/
 COPY utils/ utils/
 COPY data/ data/
-COPY chroma_db/ chroma_db/
 COPY .env .
 
 # Expose port 8000
