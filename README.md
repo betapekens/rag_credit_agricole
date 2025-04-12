@@ -94,39 +94,40 @@ curl -X POST http://localhost:8000/ask \
 
 <details>
 <summary>RESULTS</summary>
-In quale stagione è stata inaugurata la Coppa del Mondo di sci alpino?  
+
+> **Q: In quale stagione è stata inaugurata la Coppa del Mondo di sci alpino?**  
 La Coppa del Mondo di sci alpino è stata inaugurata nella stagione 1966-1967.
 
 
-Quali sono le discipline in cui si gareggia nella Coppa del Mondo di sci alpino?
+> **Q: Quali sono le discipline in cui si gareggia nella Coppa del Mondo di sci alpino?**  
 Le discipline in cui si gareggia nella Coppa del Mondo di sci alpino sono: discesa libera, supergigante, slalom gigante e slalom speciale. Inoltre, dal 2007 al 2020 si è gareggiato anche nella disciplina della combinata, mentre dal 2011 al 2022 si sono disputate alcune gare di slalom parallelo.
 
 
-Come vengono assegnati i punti ai primi 30 classificati di ogni gara?
+> **Come vengono assegnati i punti ai primi 30 classificati di ogni gara?**  
 Ai primi 30 classificati di ogni gara di Coppa del Mondo di sci alpino vengono assegnati punti secondo il seguente schema:\n\n1. 100 punti\n2. 80 punti\n3. 60 punti\n4. 50 punti\n5. 45 punti\n6. 40 punti\n7. 36 punti\n8. 32 punti\n9. 29 punti\n10. 26 punti\n11. 24 punti\n12. 22 punti\n13. 20 punti\n14. 18 punti\n15. 16 punti\n16. 15 punti\n17. 14 punti\n18. 13 punti\n19. 12 punti\n20. 11 punti\n21. 10 punti\n22. 9 punti\n23. 8 punti\n24. 7 punti\n25. 6 punti\n26. 5 punti\n27. 4 punti\n28. 3 punti\n29. 2 punti\n30. 1 punto
 
 
-Qual è il distacco massimo dal primo classificato oltre il quale non vengono assegnati punti ai concorrenti entro il 30º posto?
+> **Qual è il distacco massimo dal primo classificato oltre il quale non vengono assegnati punti ai concorrenti entro il 30º posto?**  
 Il distacco massimo dal primo classificato oltre il quale non vengono assegnati punti ai concorrenti entro il 30º posto è di 8 secondi.
 
-Quale nazione ha vinto il maggior numero totale di Coppe del Mondo generali (maschili e femminili)?
+> **Quale nazione ha vinto il maggior numero totale di Coppe del Mondo generali (maschili e femminili)?**  
 L'Austria ha vinto il maggior numero totale di Coppe del Mondo generali, considerando sia le competizioni maschili che femminili.
 
 
-Oggi è il 2000: quando Mikaela Shiffrin farà il suo debutto in Coppa del Mondo di sci alpino?
+> **Oggi è il 2000: quando Mikaela Shiffrin farà il suo debutto in Coppa del Mondo di sci alpino?**  
 Mikaela Shiffrin farà il suo debutto in Coppa del Mondo di sci alpino nel 2011.
 
 
-Se un atleta ottiene una media di 80 punti per gara e partecipa a 30 gare in una stagione, può vincere la Coppa del Mondo generale? (Considerando che mediamente il vincitore della Coppa del Mondo totalizza circa 1500-2000 punti in una stagione).
+> **Se un atleta ottiene una media di 80 punti per gara e partecipa a 30 gare in una stagione, può vincere la Coppa del Mondo generale? (Considerando che mediamente il vincitore della Coppa del Mondo totalizza circa 1500-2000 punti in una stagione).**  
 Se un atleta ottiene una media di 80 punti per gara e partecipa a 30 gare in una stagione, accumulerebbe un totale di 2400 punti (80 punti/gara * 30 gare = 2400 punti). Considerando che mediamente il vincitore della Coppa del Mondo totalizza circa 1500-2000 punti in una stagione, un totale di 2400 punti sarebbe sufficiente per vincere la Coppa del Mondo generale.
 
-In media in carriera, ogni quanti anni Marcel Hirsher ha vinto una coppa del mondo generale?
+> **In media in carriera, ogni quanti anni Marcel Hirsher ha vinto una coppa del mondo generale?**  
 Marcel Hirscher ha vinto 8 Coppe del Mondo generali durante la sua carriera, che è durata dal 2007 al 2019, quindi per 12 anni. In media, ha vinto una Coppa del Mondo generale ogni 1.5 anni (12 anni di carriera diviso 8 vittorie).
 
-Quanto tempo è trascorso in termini di anni tra le due vittorie della Coppa del Mondo Generale di Federica Brignone?
+> **Quanto tempo è trascorso in termini di anni tra le due vittorie della Coppa del Mondo Generale di Federica Brignone?**  
 Federica Brignone ha vinto la Coppa del Mondo Generale nel 2020 e nel 2021. Pertanto, è trascorso 1 anno tra le due vittorie.
 
 
-Se la prima atleta all'arrivo conclude la gara con un tempo di 59\"10, quale è il tempo massimo entro il quale un atleta che termina la gara nelle prime 30 posizioni deve arrivare per ottenere punti?
+> **Se la prima atleta all'arrivo conclude la gara con un tempo di 59\"10, quale è il tempo massimo entro il quale un atleta che termina la gara nelle prime 30 posizioni deve arrivare per ottenere punti?**  
 Un atleta che termina la gara nelle prime 30 posizioni deve arrivare entro un distacco massimo dell'8% del tempo del primo classificato. \n\nSe il primo atleta ha un tempo di 59\"10, calcoliamo l'8% di questo tempo:\n\n1. Convertiamo il tempo in secondi: 59\"10 = 59,10 secondi.\n2. Calcoliamo l'8%: 59,10 * 0,08 = 4,728 secondi.\n3. Aggiungiamo questo valore al tempo del primo atleta: 59,10 + 4,728 = 63,828 secondi.\n\nQuindi, il tempo massimo entro il quale un atleta deve arrivare per ottenere punti è di 63\"83 (arrotondando al centesimo di secondo).
 </details>
