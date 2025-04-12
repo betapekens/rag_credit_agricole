@@ -43,35 +43,38 @@ To ensure code quality and consistency, set up pre-commit hooks:
 
 Pre-commit hooks will now automatically run on every commit to check and format your code.
 
+
 ## Usage
 
-1. Place PDF files in `data/pdfs/` directory
-
-2. Run OCR processing:
-```bash
-python utils/ocr_to_markdown.py
-```
-
-3. Convert to vector database:
-```bash
-python utils/vector_db.py
-```
-
-4. Build the Docker image and run the container:
+1. Start the API server:
 ```bash
 docker build -t rag-api .
-
-docker run -p 8000:8000 rag-api
+docker run --name rag-api-container -p 8000:8000 rag-api
 ```
 
-5. Query the API:
+2. Upload a PDF file:
+```bash
+curl -X POST http://localhost:8000/upload_pdf \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@data/pdfs/your_pdf.pdf"
+```
 
-  To send a query to the API, use the following `curl` command:
-  ```bash
-  curl -X POST http://localhost:8000/ask \
-    -H "Content-Type: application/json" \
-    -d '{"question":"In quale stagione è stata inaugurata la Coppa del Mondo di sci alpino?"}'
-  ```
+3. Create the vector database (with optional chunking parameters):
+```bash
+curl -X POST http://localhost:8000/create_vector_db \
+  -H "Content-Type: application/json" \
+  -d '{
+    "chunk_size": 1000,
+    "chunk_overlap": 100
+  }'
+```
+
+4. Query the API:
+```bash
+curl -X POST http://localhost:8000/ask \
+  -H "Content-Type: application/json" \
+  -d '{"question":"In quale stagione è stata inaugurata la Coppa del Mondo di sci alpino?"}'
+```
 
   Alternatively, you can access the FastAPI Swagger UI for an interactive experience. Open your browser and navigate to [http://localhost:8000/docs](http://localhost:8000/docs) to explore and test the API endpoints.
 

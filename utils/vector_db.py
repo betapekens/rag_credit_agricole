@@ -13,6 +13,18 @@ logging.getLogger("chromadb").setLevel(logging.WARNING)
 def process_text_to_embeddings(
     text: str, persist_directory: str, chunk_size: int, chunk_overlap: int
 ) -> Chroma:
+    """
+    Process text into embeddings and store in a Chroma vector database.
+
+    Args:
+        text (str): Input text to be processed
+        persist_directory (str): Directory path to store the Chroma database
+        chunk_size (int): Size of text chunks for splitting
+        chunk_overlap (int): Overlap size between chunks
+
+    Returns:
+        Chroma: Initialized Chroma vector database containing text embeddings
+    """
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size, chunk_overlap=chunk_overlap
     )
@@ -33,6 +45,21 @@ def vectorize(
     chunk_size: int = 1000,
     chunk_overlap: int = 200,
 ):
+    """Vectorize input text file and store embeddings in a ChromaDB database.
+
+    This function reads a text file, processes its content into chunks, generates embeddings,
+    and stores them in a vector database for efficient retrieval.
+
+    Args:
+        input_file (str, optional): Path to the input text file. Defaults to "data/mds/output.md".
+        persist_directory (str, optional): Directory to store the ChromaDB database. Defaults to "chroma_db".
+        chunk_size (int, optional): Size of text chunks for processing. Defaults to 1000.
+        chunk_overlap (int, optional): Overlap between consecutive chunks. Defaults to 200.
+
+    Raises:
+        FileNotFoundError: If the input file does not exist.
+    """
+
     # Ensure the input_file is treated as a Path
     file_path = Path(input_file)
 
